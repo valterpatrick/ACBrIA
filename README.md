@@ -22,7 +22,7 @@ O objetivo deste componente é fornecer uma interface simples e eficiente para q
 
 ## To-Do
 
-- [ ] Dar o primeiro passo
+- [x] Dar o primeiro passo
 - [ ] Criar Projeto em Delphi com um formulário principal e units (classes) de conexão as IA´s. Obs.: criar algo funcional e ir melhorando com o tempo
 - [ ] Criar units (classes) base de conversão de tipos
 - [ ] Criar código de integração com OpenAI
