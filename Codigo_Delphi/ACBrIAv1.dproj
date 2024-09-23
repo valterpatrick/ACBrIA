@@ -98,6 +98,9 @@
             <Form>FrmPrincipal</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="ACBrIA.pas"/>
+        <DCCReference Include="ACBrIAClass.pas"/>
+        <DCCReference Include="ACBrOpenAI.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
