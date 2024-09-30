@@ -9,7 +9,9 @@ Const
   SJ_UFPercursoMDFe = '';//https://platform.openai.com/docs/guides/structured-outputs/how-to-use?context=without_parse
 
 type
-  TACBrModelo = (gpt4o, // gpt-4o
+  TACBrResponseFormat = (frText, frJson, frJsonSchema);
+  TRole = (rSystem, rUser, rAssistant, rTool);
+  TACBrModel = (gpt4o, // gpt-4o
     gpt4o2024_05_13, // gpt-4o-2024-05-13
     gpt4o2024_08_06, // gpt-4o-2024-08-06
     gpt4olatest, // chatgpt-4o-latest
@@ -43,13 +45,56 @@ type
     textmoderation007 // text-moderation-007
     );
 
+  TMessage = record
+    Role : TRole;
+    Content : String;
+    Name : String;
+  end;
+
   TACBrOpenAI = class(TACBrIAClass)
   private
-    FModelo: TACBrModelo;
+    FModel: TACBrModel;//model
+    FJsonSchema: String;//json_schema
+    FSeed : String;//seed
+    FServiceTier: String;//service_tier
+    FTools : String;//tools
+    FToolChoice : String;//tool_choice
+    FStop: String;//stop
+    FUser: String;//user
+    FResponseFormat: TACBrResponseFormat;//response_format
+    FMaxCompletionTokens: Integer;//max_completion_tokens
+    FNResults: Integer;//n
+    FTopLogprobs: Integer;//top_logprobs
+    FLogitBias: Integer;//logit_bias
+    FTemperature: Double;//temperature
+    FTopP: Double;//top_p
+    FFrequencyPenalty: Double;//frequency_penalty
+    FPresencePenalty: Double;//presence_penalty
+    FLogprobs : Boolean;//logprobs
+    FMessages : TList<TMessage>;//messages
   public
-    property Modelo: TACBrModelo read FModelo write FModelo;
-    function ModeloToStr(AModelo: TACBrModelo): String;
-    function StrToModelo(ATexto: String): TACBrModelo;
+    property Model: TACBrModel read FModel write FModel;
+    property JsonSchema: String read FJsonSchema write FJsonSchema;
+    property Seed : String read FSeed write FSeed;
+    property ServiceTier: String read FServiceTier write FServiceTier;
+    property Tools : String read FTools write FTools;
+    property ToolChoice : String read FToolChoice write FToolChoice;
+    property Stop: String read FStop write FStop;
+    property User: String read FUser write FUser;
+    property ResponseFormat: TACBrResponseFormat read FResponseFormat write FResponseFormat;
+    property MaxCompletionTokens: Integer read FMaxCompletionTokens write FMaxCompletionTokens;
+    property NResults: Integer read FNResults write FNResults;
+    property TopLogprobs: Integer read FTopLogprobs write FTopLogprobs;
+    property LogitBias: Integer read FLogitBias write FLogitBias;
+    property Temperature: Double read FTemperature write FTemperature;
+    property TopP: Double read FTopP write FTopP;
+    property FrequencyPenalty: Double read FFrequencyPenalty write FFrequencyPenalty;
+    property PresencePenalty: Double read FPresencePenalty write FPresencePenalty;
+    property Logprobs : Boolean read FLogprobs write FLogprobs;
+    property Messages : TList<TMessage> read FMessages write FMessages;
+
+    function ModelToStr(AModel: TACBrModel): String;
+    function StrToModel(ATexto: String): TACBrModel;
   end;
 
 implementation
@@ -57,9 +102,9 @@ implementation
 
 { TACBrOpenAI }
 
-function TACBrOpenAI.ModeloToStr(AModelo: TACBrModelo): String;
+function TACBrOpenAI.ModelToStr(AModel: TACBrModel): String;
 begin
-  case AModelo of
+  case AModel of
     gpt4o:
       Result := 'gpt-4o';
     gpt4o2024_05_13:
@@ -129,7 +174,7 @@ begin
   end;
 end;
 
-function TACBrOpenAI.StrToModelo(ATexto: String): TACBrModelo;
+function TACBrOpenAI.StrToModel(ATexto: String): TACBrModel;
 begin
   if ATexto = 'gpt-4o' then
     Result := gpt4o
